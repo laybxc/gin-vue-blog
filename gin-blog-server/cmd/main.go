@@ -5,7 +5,7 @@ import (
 	ginblog "gin-blog/internal"
 	g "gin-blog/internal/global"
 	"gin-blog/internal/middleware"
-	"log"
+	"log/slog"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -45,9 +45,9 @@ func main() {
 
 	serverAddr := conf.Server.Port
 	if serverAddr[0] == ':' || strings.HasPrefix(serverAddr, "0.0.0.0:") {
-		log.Printf("Serving HTTP on (http://localhost:%s/) ... \n", strings.Split(serverAddr, ":")[1])
+		slog.Info("Serving HTTP", "url", "http://localhost:"+strings.Split(serverAddr, ":")[1]+"/")
 	} else {
-		log.Printf("Serving HTTP on (http://%s/) ... \n", serverAddr)
+		slog.Info("Serving HTTP", "url", "http://"+serverAddr+"/")
 	}
 	r.Run(serverAddr)
 }

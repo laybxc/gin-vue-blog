@@ -23,9 +23,9 @@ type Config struct {
 		Directory string
 	}
 	JWT struct {
-		Secret string
-		Expire int64 // hour
-		Issuer string
+		Secret string // JWT 密钥
+		Expire int64  // JWT 过期时间（小时）
+		Issuer string // JWT 签发者
 	}
 	Mysql struct {
 		Host     string // 服务器地址
@@ -44,16 +44,16 @@ type Config struct {
 		Password string // 密码
 	}
 	Session struct {
-		Name   string
-		Salt   string
-		MaxAge int
+		Name   string // Session 名称
+		Salt   string // Session 盐值
+		MaxAge int    // Session 最大过期时间（秒）
 	}
 	Email struct {
 		From     string // 发件人 要发邮件的邮箱
 		Host     string // 服务器地址, 例如 smtp.qq.com 前往要发邮件的邮箱查看其 smtp 协议
 		Port     int    // 前往要发邮件的邮箱查看其 smtp 协议端口, 大多为 465
 		SmtpPass string // 邮箱密钥 不是密码是开启smtp后给你的密钥
-		SmtpUser string // 邮箱账号 
+		SmtpUser string // 邮箱账号
 	}
 	Captcha struct {
 		SendEmail  bool // 是否通过邮箱发送验证码
@@ -101,10 +101,10 @@ func ReadConfig(path string) *Config {
 		panic("配置文件反序列化失败: " + err.Error())
 	}
 
-	log.Println("配置文件内容加载成功: ", path)
+	// 这里还不能使用 slog，因为 logger 还没有初始化
+	fmt.Println("配置文件内容加载成功: ", path)
 	return Conf
 }
-
 
 // 数据库类型
 func (*Config) DbType() string {
